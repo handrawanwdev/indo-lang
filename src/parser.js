@@ -34,8 +34,16 @@ class Parser {
     return this.eat();
   }
 
-  error(msg, token) {
-    throw new IndoError(msg, token?.line, token?.column, this.source);
+  error(message, token, hint = "") {
+    throw new IndoError({
+      code: "E001",
+      message,
+      line: token?.line,
+      column: token?.column,
+      source: this.source,
+      token: token?.value,
+      hint
+    });
   }
 
   parse() {
