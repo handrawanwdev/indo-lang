@@ -189,23 +189,33 @@ class Parser {
 
     if (!token) {
       this.error(
-        "ekspresi tidak valid\nHint: isi setelah '=' harus angka/string/variabel",
-        this.getPrevToken()
+        "Ekspresi tidak valid",
+        this.getPrevToken(),
+        "Setelah '=' harus ada angka, string, atau variabel"
       );
     }
 
     const forbidden = ["buat", "tampilkan", "jika", "fungsi", "kembali"];
+
     if (forbidden.includes(token.value)) {
       this.error(
-        "ekspresi tidak valid\nHint: isi setelah '=' harus angka/string/variabel",
-        this.getPrevToken()
+        "Keyword tidak bisa digunakan sebagai ekspresi",
+        token,
+        `Gunakan nilai seperti:
+  - angka → 10
+  - string → "halo"
+  - variabel → x`
       );
     }
 
     let left = this.parsePrimary();
 
     if (!left) {
-      this.error("ekspresi tidak valid", this.getPrevToken());
+      this.error(
+        "Ekspresi tidak valid",
+        this.getPrevToken(),
+        "Pastikan ada nilai setelah operator"
+      );
     }
 
     while (
@@ -217,7 +227,11 @@ class Parser {
       const right = this.parsePrimary();
 
       if (!right) {
-        this.error("ekspresi setelah operator tidak valid", op);
+        this.error(
+          "Ekspresi setelah operator tidak valid",
+          op,
+          "Operator harus diikuti nilai"
+        );
       }
 
       left = {

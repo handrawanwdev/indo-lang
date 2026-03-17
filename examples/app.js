@@ -1,2 +1,2 @@
-let x = tampilkan;
-x
+let x = 1;
+console.log(x);
